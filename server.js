@@ -12,19 +12,27 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();             
 var port = process.env.PORT || 8080;  //setup Port
+var session = require('express-session');
 
 // Controllers
-var userController = require('./controllers/user.js');
+var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
 var receptController = require('./controllers/recept.js');
+var authController = require('./controllers/auth.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(session({
+  secret: 'Super Secret Session Key',
+  saveUninitialized: true,
+  resave: true
+}));
+
 //Connect to database
-//mongoose.connect('mongodb://188.226.217.99:20717');
+mongoose.connect('mongodb://95.85.63.6:27017/EVA');
 
 // ROUTES
 // middleware to use for all requests
@@ -42,20 +50,35 @@ router.get('/', function(req, res) {
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-router.route('/users')
-	.post(userController.postUsers)
-	.get(userController.getUsers);
+//add authController.isAuthenticated if authentication is required
+router.route('/gebruikers')
+	.post(gebruikerController.postGebruikers)
+	.get(gebruikerController.getGebruikers);
 
-router.route('/users/:user_id')
-	.get(userController.getUser)
-	.put(userController.putUser)
-	.delete(userController.deleteUser);
+router.route('/gebruikers/:gebruiker_id')
+	.get(gebruikerController.getGebruiker)
+	.put(gebruikerController.putGebruiker)
+	.delete(gebruikerController.deleteGebruiker);
 
+router.route('/Challenge')
+	.post(challengeController.postChallenges)
+	.get(challengeController.getChallenges);
 
+router.route('/Challenge/:challenge_id')
+	.get(challengeController.getChallenge)
+	.put(challengeController.putChallenge)
+	.delete(challengeController.deleteChallenge);
 
+router.route('/Recept')
+	.post(receptController.postRecepts)
+	.get(receptController.getRecepts);
+
+router.route('/Recept/:recept_id')
+	.get(receptController.getRecept)
+	.put(receptController.putRecept)
+	.delete(receptController.deleteRecept);
 
 exports.isAuthenticated = passport.authenticate('basic', { session : false });
-
 
 // START THE SERVER
 // =============================================================================
