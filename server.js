@@ -52,6 +52,11 @@ router.route('/users/:user_id')
 	.delete(userController.deleteUser);
 
 
+
+
+exports.isAuthenticated = passport.authenticate('basic', { session : false });
+
+
 // START THE SERVER
 // =============================================================================
 app.listen(port);
