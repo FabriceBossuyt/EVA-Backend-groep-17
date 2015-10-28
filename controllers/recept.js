@@ -3,7 +3,12 @@ var Recept = require('../models/recept.js');
 exports.postRecepts = function(req, res){
 	var  recept = new Recept();
 
+	console.log(req.body);
+
 	//set recept properties from body here
+	recept.receptUrl 	= req.body.receptUrl;
+	recept.titel 		= req.body.Titel;
+	recept.imageUrl 	= req.body.imageUrl;
 
 	//save recept
 	recept.save(function(err){
@@ -22,7 +27,7 @@ exports.getRecepts = function(req, res){
 		if (err)
 			res.send(err);
 
-		res.json(recepten);
+		res.json({data : recepten});
 	})
 }
 
@@ -31,7 +36,7 @@ exports.getRecept = function(req, res){
 		if(err)
 			res.send(err);
 
-		res.json(recept);
+		res.json({data : recept});
 	})
 }
 

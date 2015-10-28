@@ -1,35 +1,28 @@
 // BASE SETUP
 // call the packages we need
-var express    = require('express');        
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var app        = express();                 
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose   = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var router = express.Router();             
-var port = process.env.PORT || 8080;  //setup Port
-var session = require('express-session');
+var express    		= require('express');  
+var morgan 			= require('morgan')      
+var favicon 		= require('serve-favicon');
+var app        		= express();                 
+var cookieParser 	= require('cookie-parser');
+var bodyParser 		= require('body-parser');
+var mongoose   		= require('mongoose');
+var passport 		= require('passport');
+var router 			= express.Router();             
+var port 			= process.env.PORT || 8080;  //setup Port
+var session 		= require('express-session');
 
 // Controllers
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
-var receptController = require('./controllers/recept.js');
-var authController = require('./controllers/auth.js');
+var receptController 	= require('./controllers/recept.js');
+var authController 		= require('./controllers/auth.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(session({
-  secret: 'Super Secret Session Key',
-  saveUninitialized: true,
-  resave: true
-}));
 
 //Connect to database
 mongoose.connect('mongodb://95.85.63.6:27017/EVA');
@@ -42,15 +35,11 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
-
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-//add authController.isAuthenticated if authentication is required
+//add authController.isAuthenticated if authentication 
+//is required for the endpoint
 router.route('/gebruikers')
 	.post(gebruikerController.postGebruikers)
 	.get(gebruikerController.getGebruikers);
@@ -83,4 +72,3 @@ exports.isAuthenticated = passport.authenticate('basic', { session : false });
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);

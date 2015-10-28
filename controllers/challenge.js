@@ -1,14 +1,5 @@
 var Challenge = require('../models/challenge.js');
 
-var challenge = new Challenge({
-	Omschrijving:'test', 
-	Titel: 'test'
-})
-
-challenge.save(function(err, challenge){
-	if (err) console.log(err)
-})
-
 exports.postChallenges = function(req, res){
 	var  challenge = new Challenge();
 
@@ -31,7 +22,7 @@ exports.getChallenges = function(req, res){
 	Challenge.find(function(err, challenges){
 		if (err)
 			res.send(err);
-		res.json(challenges);
+		res.json({data : challenges});
 	})
 }
 
@@ -40,7 +31,7 @@ exports.getChallenge = function(req, res){
 		if(err)
 			res.send(err);
 
-		res.json(challenge);
+		res.json({data : challenge});
 	})
 }
 

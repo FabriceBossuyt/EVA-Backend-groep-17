@@ -4,7 +4,8 @@ exports.postGebruikers = function(req, res){
 	var  gebruiker = new Gebruiker();
 
 	//set gebruiker properties from body here
-
+	gebruiker.email = req.body.email
+	gebruiker.password = req.body.password
 	//save gebruiker
 	gebruiker.save(function(err){
 		if (err)
@@ -22,7 +23,7 @@ exports.getGebruikers = function(req, res){
 		if (err)
 			res.send(err);
 
-		res.json(gebruikers);
+		res.json({data : gebruikers});
 	})
 }
 
@@ -31,7 +32,7 @@ exports.getGebruiker = function(req, res){
 		if(err)
 			res.send(err);
 
-		res.json(gebruiker);
+		res.json({data : gebruiker});
 	})
 }
 
