@@ -3,9 +3,10 @@ var Gebruiker = require('../models/gebruiker.js');
 exports.postGebruikers = function(req, res){
 	var  gebruiker = new Gebruiker();
 
+	console.log(req)
 	//set gebruiker properties from body here
-	gebruiker.email = req.body.email
-	gebruiker.password = req.body.password
+	gebruiker.email 	= req.body.email
+	gebruiker.password 	= req.body.password
 	//save gebruiker
 	gebruiker.save(function(err){
 		if (err)

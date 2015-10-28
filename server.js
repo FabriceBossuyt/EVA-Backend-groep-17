@@ -16,7 +16,6 @@ var session 		= require('express-session');
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
 var receptController 	= require('./controllers/recept.js');
-var authController 		= require('./controllers/auth.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

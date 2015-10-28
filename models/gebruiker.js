@@ -17,7 +17,7 @@ GebruikerSchema.methods.verifyPassword = function(password, cb) {
     cb(null, isMatch);
   });
 };
-
+/*
 GebruikerSchema.pre('save', function(callback) {
   var user = this;
 
@@ -35,6 +35,6 @@ GebruikerSchema.pre('save', function(callback) {
     });
   });
 });
-
+*/
 
 module.exports = mongoose.model('Gebruiker', GebruikerSchema);
