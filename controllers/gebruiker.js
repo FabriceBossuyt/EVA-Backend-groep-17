@@ -11,8 +11,13 @@ exports.postGebruikers = function(req, res){
 			var  gebruiker = new Gebruiker();
 
 			//set gebruiker properties from body here
-			gebruiker.username 	= req.body.email
-			gebruiker.password 	= req.body.password
+			gebruiker.username 		= req.body.email
+			gebruiker.password 		= req.body.password
+			gebruiker.naam			= req.body.naam
+			gebruiker.voornaam		= req.body.voornaam
+			gebruiker.student		= req.body.student
+			gebruiker.geslachtt 	= req.body.geslachtt
+			gebruiker.vegetarisch 	= req.body.vegetarisch
 			//save gebruiker
 			gebruiker.save(function(err){
 				if (err)

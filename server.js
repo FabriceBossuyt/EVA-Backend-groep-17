@@ -11,6 +11,7 @@ var passport 		= require('passport');
 var router 			= express.Router();             
 var port 			= process.env.PORT || 8080;  //setup Port
 var session 		= require('express-session');
+var cors 			= require('cors')
 
 // Controllers
 var gebruikerController = require('./controllers/gebruiker.js');
@@ -25,6 +26,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(cors());
 
 require('./controllers/auth.js')
 
@@ -33,11 +35,7 @@ mongoose.connect('mongodb://95.85.63.6:27017/EVA');
 
 // ROUTES
 // middleware to use for all requests
-router.use(function(req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
+
 
 // all of our routes will be prefixed with /api
 app.use('/api', router);

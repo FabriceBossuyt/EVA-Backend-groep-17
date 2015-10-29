@@ -42,7 +42,10 @@ var GebruikerSchema = new mongoose.Schema({
           aantalDagen      :{
             type: Number, 
             default: 0
-                      } 
+          },
+          student : Boolean, 
+          geslacht : String, 
+          vegetarisch : String
 });
 
 GebruikerSchema.methods.encryptPassword = function(password){
