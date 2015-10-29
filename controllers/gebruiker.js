@@ -1,19 +1,29 @@
-var Gebruiker = require('../models/gebruiker.js');
+var Gebruiker 	= require('../models/gebruiker.js');
+var faker       = require('faker');
+
 
 exports.postGebruikers = function(req, res){
-	var  gebruiker = new Gebruiker();
 
-	console.log(req)
-	//set gebruiker properties from body here
-	gebruiker.email 	= req.body.email
-	gebruiker.password 	= req.body.password
-	//save gebruiker
-	gebruiker.save(function(err){
-		if (err)
-			res.send(err);
+	Gebruiker.findOne({'username': req.body.email}, function(err, gebruiker){
+		if (gebruiker){
 
-		//or change to http responsemessage
-		res.json({message: 'Gebruiker added'})
+		}
+		else
+		{
+			var  gebruiker = new Gebruiker();
+
+			//set gebruiker properties from body here
+			gebruiker.username 	= req.body.email
+			gebruiker.password 	= req.body.password
+			//save gebruiker
+			gebruiker.save(function(err){
+				if (err)
+					res.send(err);
+
+			//or change to http responsemessage
+			res.json({message: 'Gebruiker added'})
+			})
+		}
 	})
 };
 
@@ -65,3 +75,15 @@ exports.deleteGebruiker = function(req, res) {
     res.json({ message: 'Gebruiker removed!' });
   });
 };
+
+
+/*
+    for(i=0; i<4; i++) {
+        var user = new Gebruiker({ username: Faker.Internet.email().toLowerCase(), password: faker.Lorem.words(1)[0] });
+        user.save(function(err, user) {
+            if(err) return log.error(err);
+            else log.info("New user - %s:%s",user.username,user.password);
+        });
+    }
+
+*/

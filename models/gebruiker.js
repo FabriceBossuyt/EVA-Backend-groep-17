@@ -1,40 +1,39 @@
 var mongoose   = require('mongoose');
+var crypto     = require('crypto'); 
 
 var GebruikerSchema = new mongoose.Schema({
-	email: String,
-  password: String,
-	naam: String,
-	voornaam: String, 
-	accountID: String,
-	gmailCode: Number, 
-	facebookCode: Number,
-	gedaneChallenges: []
+
+          username            : String, 
+          hashedPassword   : String, 
+          naam             : String, 
+          voornaam         : String,
+          gedaneChallenges : [],
+          facebookId       : String, 
+          facebookToken    : String,
+          googleId         : String,
+          googleToken      : String,
+          salt             : String, 
+          aantalDagen      : Number, 
 });
 
-GebruikerSchema.methods.verifyPassword = function(password, cb) {
-  bcrypt.compare(password, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
+GebruikerSchema.methods.encryptPassword = function(password){
+  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 };
-/*
-GebruikerSchema.pre('save', function(callback) {
-  var user = this;
 
-  // Break out if the password hasn't changed
-  if (!user.isModified('password')) return callback();
-
-  // Password changed so we need to hash it
-  bcrypt.genSalt(5, function(err, salt) {
-    if (err) return callback(err);
-
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
-      if (err) return callback(err);
-      user.password = hash;
-      callback();
-    });
+GebruikerSchema.virtual('userId')
+  .get(function(){
+    return this.id;
   });
-});
-*/
+
+GebruikerSchema.virtual('password')
+  .set(function(password){
+    this._plainPassword = password;
+    this.salt = crypto.randomBytes(32).toString('hex');
+    this.hashedPassword = this.encryptPassword(password);
+  });
+
+  GebruikerSchema.methods.checkPassword = function(password){
+    return this.encryptPassword(password) === this.hashedPassword;
+  }
 
 module.exports = mongoose.model('Gebruiker', GebruikerSchema);

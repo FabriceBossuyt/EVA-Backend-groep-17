@@ -1,6 +1,6 @@
 // BASE SETUP
 // call the packages we need
-var express    		= require('express');  
+var express    		= require('express'); 
 var morgan 			= require('morgan')      
 var favicon 		= require('serve-favicon');
 var app        		= express();                 
@@ -16,12 +16,17 @@ var session 		= require('express-session');
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
 var receptController 	= require('./controllers/recept.js');
+var facebookController 	= require('./controllers/facebook.js');
+var oauth2Controller	= require('./controllers/oauth2.js')
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
+require('./controllers/auth.js')
 
 //Connect to database
 mongoose.connect('mongodb://95.85.63.6:27017/EVA');
@@ -42,6 +47,15 @@ app.use('/api', router);
 router.route('/gebruikers')
 	.post(gebruikerController.postGebruikers)
 	.get(gebruikerController.getGebruikers);
+
+router.route('/facebook')
+	.post(facebookController.postFacebook);
+
+router.route('/google')
+	.post()
+
+router.route('/local')
+	.post()
 
 router.route('/gebruikers/:gebruiker_id')
 	.get(gebruikerController.getGebruiker)
@@ -66,7 +80,22 @@ router.route('/Recept/:recept_id')
 	.put(receptController.putRecept)
 	.delete(receptController.deleteRecept);
 
-exports.isAuthenticated = passport.authenticate('basic', { session : false });
+app.post('/oauth/token', oauth2Controller.token);
+
+app.get('/api/userInfo',
+    passport.authenticate('bearer', { session: false }),
+        function(req, res) {
+            // req.authInfo is set using the `info` argument supplied by
+            // `BearerStrategy`.  It is typically used to indicate a scope of the token,
+            // and used in access control checks.  For illustrative purposes, this
+            // example simply returns the scope in the response.
+            res.json({ user_id: req.user.userId, name: req.user.username, scope: req.authInfo.scope })
+        }
+);
+
+console.log(app._router.stack)
+
+
 
 // START THE SERVER
 // =============================================================================
