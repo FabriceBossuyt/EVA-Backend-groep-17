@@ -1,6 +1,4 @@
 var Gebruiker 	= require('../models/gebruiker.js');
-var faker       = require('faker');
-
 
 exports.postGebruikers = function(req, res){
 
@@ -77,13 +75,3 @@ exports.deleteGebruiker = function(req, res) {
 };
 
 
-/*
-    for(i=0; i<4; i++) {
-        var user = new Gebruiker({ username: Faker.Internet.email().toLowerCase(), password: faker.Lorem.words(1)[0] });
-        user.save(function(err, user) {
-            if(err) return log.error(err);
-            else log.info("New user - %s:%s",user.username,user.password);
-        });
-    }
-
-*/

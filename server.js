@@ -95,8 +95,6 @@ app.get('/api/userInfo',
 
 console.log(app._router.stack)
 
-
-
 // START THE SERVER
 // =============================================================================
 app.listen(port);

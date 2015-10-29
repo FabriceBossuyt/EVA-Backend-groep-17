@@ -1,4 +1,3 @@
-var config                  = require('../config');
 var passport                = require('passport');
 var BasicStrategy           = require('passport-http').BasicStrategy;
 var ClientPasswordStrategy  = require('passport-oauth2-client-password').Strategy;
@@ -56,19 +55,4 @@ passport.use(new
         });
     }
 ));
-
-ClientModel.remove({}, function(err) {
-    var client = new ClientModel({ name: "OurService iOS client v1", clientId: "mobileV1", clientSecret:"abc123456" });
-    client.save(function(err, client) {
-        if(err) console.log(err);
-        else console.log("New client - %s:%s",client.clientId,client.clientSecret);
-    });
-});
-
-AccessTokenModel.remove({}, function (err) {
-    if (err) console.log(err);
-});
-RefreshTokenModel.remove({}, function (err) {
-    if (err) console.log(err);
-});
 

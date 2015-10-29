@@ -2,18 +2,47 @@ var mongoose   = require('mongoose');
 var crypto     = require('crypto'); 
 
 var GebruikerSchema = new mongoose.Schema({
-
-          username            : String, 
-          hashedPassword   : String, 
-          naam             : String, 
-          voornaam         : String,
+          username         : { 
+            type : String, 
+            default: null
+          },
+          hashedPassword   :  {
+            type : String, 
+            default: null
+          }, 
+          naam             :  {
+            type : String, 
+            default: null
+          },
+          voornaam         :  {
+            type : String, 
+            default: null
+          },
           gedaneChallenges : [],
-          facebookId       : String, 
-          facebookToken    : String,
-          googleId         : String,
-          googleToken      : String,
-          salt             : String, 
-          aantalDagen      : Number, 
+          facebookId       :  {
+            type : String, 
+            default: null
+          }, 
+          facebookToken    :  {
+            type : String, 
+            default: null
+          },
+          googleId         :  {
+            type : String, 
+            default: null
+          },
+          googleToken      :  {
+            type : String, 
+            default: null
+          },
+          salt             :  {
+            type : String, 
+            default: null
+          }, 
+          aantalDagen      :{
+            type: Number, 
+            default: 0
+                      } 
 });
 
 GebruikerSchema.methods.encryptPassword = function(password){
