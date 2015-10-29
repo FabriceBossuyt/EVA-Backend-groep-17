@@ -16,7 +16,7 @@ exports.postGebruikers = function(req, res){
 			gebruiker.naam			= req.body.naam
 			gebruiker.voornaam		= req.body.voornaam
 			gebruiker.student		= req.body.student
-			gebruiker.geslachtt 	= req.body.geslachtt
+			gebruiker.geslacht 	= req.body.geslacht
 			gebruiker.vegetarisch 	= req.body.vegetarisch
 			//save gebruiker
 			gebruiker.save(function(err){

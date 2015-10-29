@@ -43,7 +43,7 @@ var GebruikerSchema = new mongoose.Schema({
             type: Number, 
             default: 0
           },
-          student : Boolean, 
+          student : String, 
           geslacht : String, 
           vegetarisch : String
 });
