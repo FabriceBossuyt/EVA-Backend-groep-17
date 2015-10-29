@@ -16,7 +16,7 @@ exports.postFacebook = function(req, res){
 		else{
 			var gebruiker = new Gebruiker()
 
-			gebruiker.username 				= req.body.naam; //req.body.email
+			gebruiker.username 				= req.body.email; //req.body.email
 			gebruiker.facebookToken			= req.body.token;
 			gebruiker.facebookId 			= req.body.id;
 			gebruiker.naam 					= req.body.naam;
