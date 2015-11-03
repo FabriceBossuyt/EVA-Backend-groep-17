@@ -78,7 +78,14 @@ router.route('/Recept/:recept_id')
 	.put(receptController.putRecept)
 	.delete(receptController.deleteRecept);
 
-app.post('/oauth/token', oauth2Controller.token);
+app.post('/oauth/token', oauth2Controller.token)
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { session: false }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log(req.body)
+  });
 
 app.get('/api/userInfo',
     passport.authenticate('bearer', { session: false }),
@@ -90,8 +97,6 @@ app.get('/api/userInfo',
             res.json({ user_id: req.user.userId, name: req.user.username, scope: req.authInfo.scope })
         }
 );
-
-console.log(app._router.stack)
 
 // START THE SERVER
 // =============================================================================

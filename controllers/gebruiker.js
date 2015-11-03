@@ -3,8 +3,10 @@ var Gebruiker 	= require('../models/gebruiker.js');
 exports.postGebruikers = function(req, res){
 
 	Gebruiker.findOne({'username': req.body.email}, function(err, gebruiker){
+		console.log(req.body)
+		console.log(gebruiker)
 		if (gebruiker){
-
+			res.status(400).send('Gebruiker bestaat al')
 		}
 		else
 		{
@@ -16,15 +18,14 @@ exports.postGebruikers = function(req, res){
 			gebruiker.naam			= req.body.naam
 			gebruiker.voornaam		= req.body.voornaam
 			gebruiker.student		= req.body.student
-			gebruiker.geslacht 	= req.body.geslacht
+			gebruiker.geslacht 		= req.body.geslacht
 			gebruiker.vegetarisch 	= req.body.vegetarisch
 			//save gebruiker
 			gebruiker.save(function(err){
 				if (err)
 					res.send(err);
 
-			//or change to http responsemessage
-			res.json({message: 'Gebruiker added'})
+			res.send('Gebruiker added')
 			})
 		}
 	})

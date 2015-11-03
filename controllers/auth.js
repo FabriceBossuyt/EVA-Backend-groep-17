@@ -2,6 +2,8 @@ var passport                = require('passport');
 var BasicStrategy           = require('passport-http').BasicStrategy;
 var ClientPasswordStrategy  = require('passport-oauth2-client-password').Strategy;
 var BearerStrategy          = require('passport-http-bearer').Strategy;
+var FacebookStrategy        = require('passport-facebook').Strategy;
+var FacebookTokenStrategy   = require('passport-facebook-token').Strategy;
 var ClientModel				= require('../models/client')
 var UserModel               = require('../models/gebruiker');
 var AccessTokenModel        = require('../models/accesstoken');
@@ -10,9 +12,15 @@ var RefreshTokenModel       = require('../models/refreshtoken');
 passport.use(new BasicStrategy(
     function(username, password, done) {
         ClientModel.findOne({ clientId: username }, function(err, client) {
-            if (err) { return done(err); }
-            if (!client) { return done(null, false); }
-            if (client.clientSecret != password) { return done(null, false); }
+            if (err) { 
+                return done(err); 
+            }
+            if (!client) { 
+                return done(null, false); 
+            }
+            if (client.clientSecret != password) { 
+                return done(null, false); 
+            }
 
             return done(null, client);
         });
@@ -22,32 +30,64 @@ passport.use(new BasicStrategy(
 passport.use(new ClientPasswordStrategy(
     function(clientId, clientSecret, done) {
         ClientModel.findOne({ clientId: clientId }, function(err, client) {
-            if (err) { return done(err); }
-            if (!client) { return done(null, false); }
-            if (client.clientSecret != clientSecret) { return done(null, false); }
+            if (err) { 
+                return done(err); 
+            }
+            if (!client) { 
+                return done(null, false); 
+            }
+            if (client.clientSecret != clientSecret) {
+             return done(null, false); 
+            }
 
             return done(null, client);
         });
     }
 ));
 
-passport.use(new
- BearerStrategy(
+passport.use(new FacebookStrategy(
+    {
+        clientID: "1519833821647286",
+        clientSecret: "898a90b43a1954286c0ceeb0b9eede08",
+        callbackURL: "http://localhost:8080/auth/facebook/callback",
+    },
+    function(accessToken, refreshToken, profile, done) {
+        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+            if (err) {
+                return done(err); 
+            }
+
+    return done(err, user);
+    });
+  }
+));
+
+passport.use(new BearerStrategy(
     function(accessToken, done) {
         AccessTokenModel.findOne({ token: accessToken }, function(err, token) {
-            if (err) { return done(err); }
-            if (!token) { return done(null, false); }
+            if (err) { 
+                return done(err); 
+            }
+            if (!token) { 
+                return done(null, false); 
+            }
 
             if( Math.round((Date.now()-token.created)/1000) > 3600 ) {
                 AccessTokenModel.remove({ token: accessToken }, function (err) {
-                    if (err) return done(err);
+                    if (err) {
+                        return done(err);
+                    }                  
                 });
                 return done(null, false, { message: 'Token expired' });
             }
 
             UserModel.findById(token.userId, function(err, user) {
-                if (err) { return done(err); }
-                if (!user) { return done(null, false, { message: 'Unknown user' }); }
+                if (err) { 
+                    return done(err); 
+                }
+                if (!user) { 
+                    return done(null, false, { message: 'Unknown user' }); 
+                }
 
                 var info = { scope: '*' }
                 done(null, user, info);
