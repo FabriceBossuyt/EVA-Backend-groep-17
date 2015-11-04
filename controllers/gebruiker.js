@@ -93,7 +93,7 @@ exports.putGebruiker = function(req, res) {
 		gebruiker.student = req.body.student;
 	}	
 	if(req.body.geslacht != null){
-		gebruiker.geslacht = req.body.vegetarisch;
+		gebruiker.geslacht = req.body.geslacht;
 	}	
 	if(req.body.vegetarisch != null){
 		gebruiker.vegetarisch = req.body.vegetarisch;
