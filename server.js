@@ -20,6 +20,9 @@ var receptController 	= require('./controllers/recept.js');
 var facebookController 	= require('./controllers/facebook.js');
 var oauth2Controller	= require('./controllers/oauth2.js')
 
+var Gebruiker 		= require('./models/gebruiker.js');
+
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(morgan('dev'));
@@ -40,8 +43,7 @@ mongoose.connect('mongodb://95.85.63.6:27017/EVA');
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-//add authController.isAuthenticated if authentication 
-//is required for the endpoint
+
 router.route('/gebruikers')
 	.post(gebruikerController.postGebruikers)
 	.get(gebruikerController.getGebruikers);
@@ -78,7 +80,9 @@ router.route('/Recept/:recept_id')
 	.put(receptController.putRecept)
 	.delete(receptController.deleteRecept);
 
-app.post('/oauth/token', oauth2Controller.token)
+
+
+app.post('/api/oauth/token', oauth2Controller.token)
 
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { session: false }),
@@ -89,12 +93,14 @@ app.get('/auth/facebook/callback',
 
 app.get('/api/userInfo',
     passport.authenticate('bearer', { session: false }),
-        function(req, res) {
+        function(req, res) {      	
             // req.authInfo is set using the `info` argument supplied by
             // `BearerStrategy`.  It is typically used to indicate a scope of the token,
             // and used in access control checks.  For illustrative purposes, this
             // example simply returns the scope in the response.
-            res.json({ user_id: req.user.userId, name: req.user.username, scope: req.authInfo.scope })
+            Gebruiker.findOne({'_id': req.user.userId}, function(err, gebruiker){
+            	res.json({ data: gebruiker})
+            });
         }
 );
 

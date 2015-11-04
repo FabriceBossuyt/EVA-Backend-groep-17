@@ -60,8 +60,7 @@ server.exchange(oauth2orize.exchange.password(function(client, username, passwor
 }));
 
 server.exchange(oauth2orizeFacebook(function (client, profile, scope, cb) {
-    UserModel.findOne({ facebookId: profile.id}, function(err, user) {
-                console.log(err)
+    UserModel.findOrCreate({ facebookId: profile.id}, function(err, user) {
         if (err) { 
             return cb(err); 
         }
