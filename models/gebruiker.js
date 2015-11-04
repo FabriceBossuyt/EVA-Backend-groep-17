@@ -1,5 +1,7 @@
 var mongoose   = require('mongoose');
 var crypto     = require('crypto'); 
+var findOrCreate  = require('mongoose-findorcreate'); 
+
 
 var GebruikerSchema = new mongoose.Schema({
           username         : { 
@@ -67,5 +69,7 @@ GebruikerSchema.virtual('password')
   GebruikerSchema.methods.checkPassword = function(password){
     return this.encryptPassword(password) === this.hashedPassword;
   }
+
+  GebruikerSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model('Gebruiker', GebruikerSchema);

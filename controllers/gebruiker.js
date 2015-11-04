@@ -1,12 +1,10 @@
-var Gebruiker 	= require('../models/gebruiker.js');
+var Gebruiker 		= require('../models/gebruiker.js');
 
 exports.postGebruikers = function(req, res){
 
 	Gebruiker.findOne({'username': req.body.email}, function(err, gebruiker){
-		console.log(req.body)
-		console.log(gebruiker)
 		if (gebruiker){
-			res.status(400).send('Gebruiker bestaat al')
+			res.status(400).json('Gebruiker bestaat al')
 		}
 		else
 		{
@@ -25,7 +23,7 @@ exports.postGebruikers = function(req, res){
 				if (err)
 					res.send(err);
 
-			res.send('Gebruiker added')
+			res.json('Gebruiker added')
 			})
 		}
 	})

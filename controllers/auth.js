@@ -50,9 +50,10 @@ passport.use(new FacebookStrategy(
         clientID: "1519833821647286",
         clientSecret: "898a90b43a1954286c0ceeb0b9eede08",
         callbackURL: "http://localhost:8080/auth/facebook/callback",
+        profileFields: ['id', 'emails', 'name'],
     },
-    function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    function(accessToken, refreshToken, profile, done) {    
+        UserModel.findOrCreate({ facebookId: profile.id }, function (err, user) {
             if (err) {
                 return done(err); 
             }
@@ -64,6 +65,7 @@ passport.use(new FacebookStrategy(
 
 passport.use(new BearerStrategy(
     function(accessToken, done) {
+        console.log(accessToken)
         AccessTokenModel.findOne({ token: accessToken }, function(err, token) {
             if (err) { 
                 return done(err); 
