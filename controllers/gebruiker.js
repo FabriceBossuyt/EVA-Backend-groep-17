@@ -49,6 +49,14 @@ exports.getGebruiker = function(req, res){
 	})
 }
 
+exports.getGebruikerByFacebookId = function(req, res){
+	Gebruiker.findOne({'facebookId': req.body.facebookId}, function(err, gebruiker){
+		if(err)
+			res.send(err);
+		res.json({data : gebruiker});
+	})
+}
+
 exports.putGebruiker = function(req, res) {
   // Use the Beer model to find a specific beer
   Gebruiker.findById(req.params.gebruiker_id, function(err, gebruiker) {
