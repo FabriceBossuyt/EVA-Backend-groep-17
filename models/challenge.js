@@ -1,6 +1,6 @@
 var mongoose   = require('mongoose');
 var ChallengeSchema = new mongoose.Schema({
-	_id: String,
+	challengeId: String,
 	omschrijving:  {
             type : String, 
             default: null
