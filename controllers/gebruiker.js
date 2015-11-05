@@ -50,7 +50,7 @@ exports.getGebruiker = function(req, res){
 }
 
 exports.getGebruikerByFacebookId = function(req, res){
-	Gebruiker.findOne({'facebookId': req.body.facebookId}, function(err, gebruiker){
+	Gebruiker.findOne({'facebookId': req.params.facebookId}, function(err, gebruiker){
 		if(err)
 			res.send(err);
 		res.json({data : gebruiker});
@@ -58,7 +58,7 @@ exports.getGebruikerByFacebookId = function(req, res){
 }
 
 exports.getGebruikerByUsername = function(req, res){
-	Gebruiker.findOne({'username': req.body.username}, function(err, gebruiker){
+	Gebruiker.findOne({'username': req.params.username}, function(err, gebruiker){
 		if(err)
 			res.send(err);
 		res.json({data : gebruiker});
