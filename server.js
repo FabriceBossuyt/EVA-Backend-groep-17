@@ -65,6 +65,9 @@ router.route('/gebruikers/:gebruiker_id')
 router.route('/gebruikerByFacebookId/:facebookId')
 	.get(gebruikerController.getGebruikerByFacebookId)
 
+router.route('/gebruikerByUsername/:username')
+	.get(gebruikerController.getGebruikerByUsername)
+
 router.route('/Challenge')
 	.post(challengeController.postChallenges)
 	.get(challengeController.getChallenges);
