@@ -1,17 +1,17 @@
-var mongoose   = require('mongoose');
+var mongoose = require('mongoose');
 var ChallengeSchema = new mongoose.Schema({
-	challengeId: String,
-	omschrijving:  {
-            type : String, 
-            default: null
-          },
-	titel:  {
-            type : String, 
-            default: null
-          }, 
+    challengeId: String,
+    omschrijving: {
+        type: String,
+        default: null
+    },
+    titel: {
+        type: String,
+        default: null
+    },
     moeilijkheid: {
-    	type: String, 
-    	default: null
+        type: String,
+        default: null
     }
 });
 

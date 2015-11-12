@@ -17,14 +17,10 @@ var cors 			= require('cors')
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
 var receptController 	= require('./controllers/recept.js');
-var facebookController 	= require('./controllers/facebook.js');
 var oauth2Controller	= require('./controllers/oauth2.js')
 
 var Gebruiker 		= require('./models/gebruiker.js');
 
-
-// configure app to use bodyParser()
-// this will let us get the data from a POST
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,28 +30,18 @@ app.use(cors());
 require('./controllers/auth.js')
 
 //Connect to database
-mongoose.connect('mongodb://95.85.63.6:27017/EVA');
+mongoose.connect('mongodb://95.85.63.6:27017/EVA',function(err) {
+    if (err)
+        return console.error(err);
+});
 
 // ROUTES
-// middleware to use for all requests
-
-
-// all of our routes will be prefixed with /api
 app.use('/api', router);
 
 
 router.route('/gebruikers')
 	.post(gebruikerController.postGebruikers)
 	.get(gebruikerController.getGebruikers);
-
-router.route('/facebook')
-	.post(facebookController.postFacebook);
-
-router.route('/google')
-	.post()
-
-router.route('/local')
-	.post()
 
 router.route('/gebruikers/:gebruiker_id')
 	.get(gebruikerController.getGebruiker)
@@ -86,16 +72,10 @@ router.route('/Recept/:recept_id')
 	.put(receptController.putRecept)
 	.delete(receptController.deleteRecept);
 
-
-
 app.post('/api/oauth/token', oauth2Controller.token)
 
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { session: false }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    console.log(req.body)
-  });
+  passport.authenticate('facebook', { session: false }));
 
 app.get('/api/userInfo',
     passport.authenticate('bearer', { session: false }),
@@ -113,3 +93,4 @@ app.get('/api/userInfo',
 // START THE SERVER
 // =============================================================================
 app.listen(port);
+console.log('Magic happens on port 8080');
