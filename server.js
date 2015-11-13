@@ -49,10 +49,13 @@ router.route('/gebruikers/:gebruiker_id')
 	.delete(gebruikerController.deleteGebruiker);
 
 router.route('/gebruikerByFacebookId/:facebookId')
-	.get(gebruikerController.getGebruikerByFacebookId)
+	.get(gebruikerController.getGebruikerByFacebookId);
 
 router.route('/gebruikerByUsername/:username')
-	.get(gebruikerController.getGebruikerByUsername)
+	.get(gebruikerController.getGebruikerByUsername);
+
+router.route('/updateGebruikerByFacebookId/:facebookId')
+	.put(gebruikerController.updateGebruikerByFacebookId);
 
 router.route('/Challenge')
 	.post(challengeController.postChallenges)

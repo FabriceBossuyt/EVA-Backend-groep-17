@@ -122,6 +122,65 @@ exports.putGebruiker = function (req, res) {
     });
 };
 
+exports.updateGebruikerByFacebookId = function (req, res) {
+    Gebruiker.findOne({ 'facebookId': req.params.facebookId }, function (err, gebruiker) {
+        if (err)
+            res.send(err);
+
+        // Update the gebruiker attr
+        if (req.body.username != null) {
+            gebruiker.username = req.body.username;
+        }
+        if (req.body.hashedPassword != null) {
+            gebruiker.hashedPassword = req.body.hashedPassword;
+        }
+        if (req.body.naam != null) {
+            gebruiker.naam = req.body.naam;
+        }
+        if (req.body.voornaam != null) {
+            gebruiker.voornaam = req.body.voornaam;
+        }
+        if (req.body.gedaneChallenges != null) {
+            gebruiker.gedaneChallenges = req.body.gedaneChallenges;
+        }
+        if (req.body.facebookId != null) {
+            gebruiker.facebookId = req.body.facebookId;
+        }
+        if (req.body.facebookToken != null) {
+            gebruiker.facebookToken = req.body.facebookToken;
+        }
+        if (req.body.googleId != null) {
+            gebruiker.googleId = req.body.googleId;
+        }
+        if (req.body.googleToken != null) {
+            gebruiker.googleToken = req.body.googleToken;
+        }
+        if (req.body.salt != null) {
+            gebruiker.salt = req.body.salt;
+        }
+        if (req.body.aantalDagen != null) {
+            gebruiker.aantalDagen = req.body.aantalDagen;
+        }
+        if (req.body.student != null) {
+            gebruiker.student = req.body.student;
+        }
+        if (req.body.geslacht != null) {
+            gebruiker.geslacht = req.body.geslacht;
+        }
+        if (req.body.vegetarisch != null) {
+            gebruiker.vegetarisch = req.body.vegetarisch;
+        }
+
+        // Save the Gebruiker and check for errors
+        gebruiker.save(function (err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Gebruiker updated and saved', gebruiker });
+        });
+    });
+};
+
 exports.deleteGebruiker = function (req, res) {
     // Use the Beer model to find a specific beer and remove it
     Gebruiker.findByIdAndRemove(req.params.gebruiker_id, function (err) {
