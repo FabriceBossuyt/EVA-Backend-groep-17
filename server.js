@@ -1,25 +1,25 @@
 // BASE SETUP
 // call the packages we need
-var express    		= require('express'); 
-var morgan 			= require('morgan')      
-var favicon 		= require('serve-favicon');
-var app        		= express();                 
-var cookieParser 	= require('cookie-parser');
-var bodyParser 		= require('body-parser');
-var mongoose   		= require('mongoose');
-var passport 		= require('passport');
-var router 			= express.Router();             
-var port 			= process.env.PORT || 8080;  //setup Port
-var session 		= require('express-session');
-var cors 			= require('cors')
+var express = require('express');
+var morgan = require('morgan')
+var favicon = require('serve-favicon');
+var app = express();
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var router = express.Router();
+var port = process.env.PORT || 8080;  //setup Port
+var session = require('express-session');
+var cors = require('cors')
 
 // Controllers
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
-var receptController 	= require('./controllers/recept.js');
-var oauth2Controller	= require('./controllers/oauth2.js')
+var receptController = require('./controllers/recept.js');
+var oauth2Controller = require('./middelware/oauth2.js')
 
-var Gebruiker 		= require('./models/gebruiker.js');
+var Gebruiker = require('./models/gebruiker.js');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,10 +27,10 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
 
-require('./controllers/auth.js')
+require('./middelware/auth.js')
 
 //Connect to database
-mongoose.connect('mongodb://95.85.63.6:27017/EVA',function(err) {
+mongoose.connect('mongodb://95.85.63.6:27017/EVA', function (err) {
     if (err)
         return console.error(err);
 });
@@ -82,14 +82,13 @@ app.get('/auth/facebook/callback',
 
 app.get('/api/userInfo',
     passport.authenticate('bearer', { session: false }),
-        function(req, res) {      	
+        function (req, res) {
             // req.authInfo is set using the `info` argument supplied by
             // `BearerStrategy`.  It is typically used to indicate a scope of the token,
             // and used in access control checks.  For illustrative purposes, this
             // example simply returns the scope in the response.
-            Gebruiker.findOne({'_id': req.user.userId}, function(err, gebruiker){
-            	res.json({ data: gebruiker})
-            });
+            res.json({ data: req.user })
+
         }
 );
 
