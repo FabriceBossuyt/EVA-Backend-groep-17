@@ -17,7 +17,7 @@ var cors = require('cors')
 var gebruikerController = require('./controllers/gebruiker.js');
 var challengeController = require('./controllers/challenge.js');
 var receptController = require('./controllers/recept.js');
-var oauth2Controller = require('./middelware/oauth2.js')
+var oauth2Controller = require('./middleware/oauth2.js')
 
 var Gebruiker = require('./models/gebruiker.js');
 
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
 
-require('./middelware/auth.js')
+require('./middleware/auth.js')
 
 //Connect to database
 mongoose.connect('mongodb://95.85.63.6:27017/EVA', function (err) {
