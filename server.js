@@ -32,7 +32,7 @@ require('./middleware/auth.js')
 //Connect to database
 mongoose.connect('mongodb://95.85.63.6:27017/EVA', function (err) {
     if (err)
-        return console.error(err);
+        console.error(err);
 });
 
 // ROUTES

@@ -108,7 +108,6 @@ server.exchange(oauth2orizeFacebook(function (client, profile, scope, cb) {
 }));
 
 server.exchange(oauth2orize.exchange.refreshToken(function (client, refreshToken, scope, done) {
-    console.log(refreshToken)
     RefreshTokenModel.findOne({ token: refreshToken }, function (err, token) {
         if (err) {
             return done(err);
@@ -159,7 +158,7 @@ server.exchange(oauth2orize.exchange.refreshToken(function (client, refreshToken
                 if (err) {
                     return done(err);
                 }
-                cb(null, tokenValue, refreshTokenValue, { 'expires_in': 3600 });
+                done(null, tokenValue, refreshTokenValue, { 'expires_in': 3600 });
             });
         });
     });
