@@ -176,7 +176,7 @@ exports.updateGebruikerByFacebookId = function (req, res) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Gebruiker updated and saved', gebruiker });
+            res.json('Gebruiker updated and saved');
         });
     });
 };
