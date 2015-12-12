@@ -74,15 +74,6 @@ passport.use(new BearerStrategy(
                 return done(null, false);
             }
 
-            if (Math.round((Date.now() - token.created) / 1000) > 3600) {
-                AccessTokenModel.remove({ token: accessToken }, function (err) {
-                    if (err) {
-                        return done(err);
-                    }
-                });
-                return done(null, false, { message: 'Token expired' });
-            }
-
             UserModel.findById(token.userId, function (err, user) {
                 if (err) {
                     return done(err);

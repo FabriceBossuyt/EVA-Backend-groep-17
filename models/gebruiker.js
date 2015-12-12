@@ -29,14 +29,6 @@ var GebruikerSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    googleId: {
-        type: String,
-        default: null
-    },
-    googleToken: {
-        type: String,
-        default: null
-    },
     salt: {
         type: String,
         default: null
@@ -47,7 +39,8 @@ var GebruikerSchema = new mongoose.Schema({
     },
     student: String,
     geslacht: String,
-    vegetarisch: String
+    vegetarisch: String,
+    huidigeChallenge: Number
 });
 
 GebruikerSchema.methods.encryptPassword = function (password) {

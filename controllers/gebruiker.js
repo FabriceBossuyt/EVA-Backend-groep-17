@@ -2,30 +2,30 @@ var Gebruiker = require('../models/gebruiker.js');
 
 exports.postGebruikers = function (req, res) {
 
-    Gebruiker.findOne({ 'username': req.body.email }, function (err, gebruiker) {
+    Gebruiker.findOne({ 'username': req.body.email }, function(err, gebruiker) {
         if (gebruiker) {
             res.status(400).json('Gebruiker bestaat al')
-        }
-        else {
+        } else {
             var gebruiker = new Gebruiker();
 
             //set gebruiker properties from body here
-            gebruiker.username = req.body.email
-            gebruiker.password = req.body.password
-            gebruiker.naam = req.body.naam
-            gebruiker.voornaam = req.body.voornaam
-            gebruiker.student = req.body.student
-            gebruiker.geslacht = req.body.geslacht
-            gebruiker.vegetarisch = req.body.vegetarisch
+            gebruiker.username = req.body.email;
+            gebruiker.password = req.body.password;
+            gebruiker.naam = req.body.naam;
+            gebruiker.voornaam = req.body.voornaam;
+            gebruiker.student = req.body.student;
+            gebruiker.geslacht = req.body.geslacht;
+            gebruiker.vegetarisch = req.body.vegetarisch;
             //save gebruiker
-            gebruiker.save(function (err) {
+
+            gebruiker.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json('Gebruiker added')
-            })
+                res.json('Gebruiker added');
+            });
         }
-    })
+    });
 };
 
 exports.getGebruikers = function (req, res) {
@@ -38,19 +38,24 @@ exports.getGebruikers = function (req, res) {
 }
 
 exports.getGebruiker = function (req, res) {
-    Gebruiker.findById(req.params.gebruiker_id, function (err, gebruiker) {
+    Gebruiker.findById(req.params.gebruiker_id, function(err, gebruiker) {
         if (err)
             res.send(err);
 
         res.json({ data: gebruiker });
-    })
+    });
 }
 
 exports.getGebruikerByFacebookId = function (req, res) {
     Gebruiker.findOne({ 'facebookId': req.params.facebookId }, function (err, gebruiker) {
         if (err)
             res.send(err);
-        res.json({ data: gebruiker });
+
+        if (gebruiker) {
+            res.json({ data: gebruiker });
+        } else {
+            res.status(400).json('Gebruiker bestaat niet');
+        }
     })
 }
 
