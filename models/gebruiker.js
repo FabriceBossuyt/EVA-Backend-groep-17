@@ -40,7 +40,12 @@ var GebruikerSchema = new mongoose.Schema({
     student: String,
     geslacht: String,
     vegetarisch: String,
-    huidigeChallenge: Number
+    huidigeChallenge: String,
+    gestart: Date,
+    created: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 GebruikerSchema.methods.encryptPassword = function (password) {

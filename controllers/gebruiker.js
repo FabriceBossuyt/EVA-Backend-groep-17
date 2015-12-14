@@ -2,7 +2,7 @@ var Gebruiker = require('../models/gebruiker.js');
 
 exports.postGebruikers = function (req, res) {
 
-    Gebruiker.findOne({ 'username': req.body.email }, function(err, gebruiker) {
+    Gebruiker.findOne({ 'username': req.body.email }, function (err, gebruiker) {
         if (gebruiker) {
             res.status(400).json('Gebruiker bestaat al')
         } else {
@@ -19,7 +19,7 @@ exports.postGebruikers = function (req, res) {
             gebruiker.facebookId = req.body.facebookId;
             //save gebruiker
 
-            gebruiker.save(function(err) {
+            gebruiker.save(function (err) {
                 if (err)
                     res.send(err);
 
@@ -39,7 +39,7 @@ exports.getGebruikers = function (req, res) {
 }
 
 exports.getGebruiker = function (req, res) {
-    Gebruiker.findById(req.params.gebruiker_id, function(err, gebruiker) {
+    Gebruiker.findById(req.params.gebruiker_id, function (err, gebruiker) {
         if (err)
             res.send(err);
 
@@ -69,7 +69,15 @@ exports.getGebruikerByUsername = function (req, res) {
 }
 
 exports.putGebruiker = function (req, res) {
-    Gebruiker.findById(req.params.gebruiker_id, function (err, gebruiker) {
+    console.log(req.body)
+    var id;
+    if (req.params.gebruiker_id) {
+        id = req.params.gebruiker_id;
+    } else {
+        id = req.user.id
+    }
+
+    Gebruiker.findById(id, function (err, gebruiker) {
         if (err)
             res.send(err);
 
@@ -114,7 +122,7 @@ exports.putGebruiker = function (req, res) {
             gebruiker.huidigeChallenge = req.body.huidigeChallenge;
         }
 
-
+        console.log(gebruiker)
         // Save the Gebruiker and check for errors
         gebruiker.save(function (err) {
             if (err)

@@ -75,6 +75,11 @@ router.route('/Recept/:recept_id')
 	.put(receptController.putRecept)
 	.delete(receptController.deleteRecept);
 
+router.route('/me')
+    .put(passport.authenticate('bearer', {session: false}), function(req,res){
+        gebruikerController.putGebruiker(req, res)
+    })
+
 app.post('/api/oauth/token', oauth2Controller.token)
 
 app.get('/auth/facebook/callback',
