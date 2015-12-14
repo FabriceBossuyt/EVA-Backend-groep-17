@@ -16,6 +16,7 @@ exports.postGebruikers = function (req, res) {
             gebruiker.student = req.body.student;
             gebruiker.geslacht = req.body.geslacht;
             gebruiker.vegetarisch = req.body.vegetarisch;
+            gebruiker.facebookId = req.body.facebookId;
             //save gebruiker
 
             gebruiker.save(function(err) {
@@ -94,12 +95,6 @@ exports.putGebruiker = function (req, res) {
         if (req.body.facebookToken != null) {
             gebruiker.facebookToken = req.body.facebookToken;
         }
-        if (req.body.googleId != null) {
-            gebruiker.googleId = req.body.googleId;
-        }
-        if (req.body.googleToken != null) {
-            gebruiker.googleToken = req.body.googleToken;
-        }
         if (req.body.salt != null) {
             gebruiker.salt = req.body.salt;
         }
@@ -114,6 +109,9 @@ exports.putGebruiker = function (req, res) {
         }
         if (req.body.vegetarisch != null) {
             gebruiker.vegetarisch = req.body.vegetarisch;
+        }
+        if (req.body.huidigeChallenge != null) {
+            gebruiker.huidigeChallenge = req.body.huidigeChallenge;
         }
 
 

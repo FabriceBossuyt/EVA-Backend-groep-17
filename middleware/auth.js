@@ -65,7 +65,6 @@ passport.use(new FacebookStrategy(
 
 passport.use(new BearerStrategy(
     function (accessToken, done) {
-        console.log(accessToken)
         AccessTokenModel.findOne({ token: accessToken }, function (err, token) {
             if (err) {
                 return done(err);
