@@ -35,7 +35,7 @@ var GebruikerSchema = new mongoose.Schema({
     },
     aantalDagen: {
         type: Number,
-        default: 0
+        default: 1
     },
     student: String,
     geslacht: String,

@@ -69,14 +69,13 @@ exports.getGebruikerByUsername = function (req, res) {
 }
 
 exports.putGebruiker = function (req, res) {
-    console.log(req.body)
     var id;
     if (req.params.gebruiker_id) {
         id = req.params.gebruiker_id;
     } else {
         id = req.user.id
     }
-
+    console.log(req.body)
     Gebruiker.findById(id, function (err, gebruiker) {
         if (err)
             res.send(err);
@@ -94,8 +93,8 @@ exports.putGebruiker = function (req, res) {
         if (req.body.voornaam != null) {
             gebruiker.voornaam = req.body.voornaam;
         }
-        if (req.body.gedaneChallenges != null) {
-            gebruiker.gedaneChallenges = req.body.gedaneChallenges;
+        if (req.body.newChallenge != null) {
+            gebruiker.gedaneChallenges.push(req.body.newChallenge);
         }
         if (req.body.facebookId != null) {
             gebruiker.facebookId = req.body.facebookId;
@@ -122,7 +121,7 @@ exports.putGebruiker = function (req, res) {
             gebruiker.huidigeChallenge = req.body.huidigeChallenge;
         }
 
-        console.log(gebruiker)
+
         // Save the Gebruiker and check for errors
         gebruiker.save(function (err) {
             if (err)
