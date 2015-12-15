@@ -8,7 +8,8 @@ exports.postRecepts = function (req, res) {
     //set recept properties from body here
     recept.receptUrl = req.body.receptUrl;
     recept.titel     = req.body.Titel;
-    recept.imageUrl  = req.body.imageUrl;
+    recept.imageUrl = req.body.imageUrl;
+    recept.receptTekst = req.body.receptTekst;
 
     //save recept
     recept.save(function (err) {
