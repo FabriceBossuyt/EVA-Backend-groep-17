@@ -75,7 +75,6 @@ exports.putGebruiker = function (req, res) {
     } else {
         id = req.user.id
     }
-    console.log(req.body)
     Gebruiker.findById(id, function (err, gebruiker) {
         if (err)
             res.send(err);
@@ -119,6 +118,9 @@ exports.putGebruiker = function (req, res) {
         }
         if (req.body.huidigeChallenge != null) {
             gebruiker.huidigeChallenge = req.body.huidigeChallenge;
+        }
+        if (req.body.laatsteLogin != null) {
+            gebruiker.laatsteLogin = req.body.laatsteLogin;
         }
 
 

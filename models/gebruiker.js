@@ -45,7 +45,8 @@ var GebruikerSchema = new mongoose.Schema({
     created: {
         type: Date,
         default: Date.now
-    }
+    },
+    laatsteLogin: Date
 });
 
 GebruikerSchema.methods.encryptPassword = function (password) {
