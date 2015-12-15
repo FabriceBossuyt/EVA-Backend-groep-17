@@ -95,6 +95,9 @@ exports.putGebruiker = function (req, res) {
         if (req.body.newChallenge != null) {
             gebruiker.gedaneChallenges.push(req.body.newChallenge);
         }
+        if (req.body.gedanceChallenges != null) {
+            gebruiker.gedaneChallenges = req.body.gedaneChallenges;
+        }
         if (req.body.facebookId != null) {
             gebruiker.facebookId = req.body.facebookId;
         }
